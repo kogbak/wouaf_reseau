@@ -21,8 +21,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
+use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -50,8 +49,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'nom' => ['required', 'string', 'max:30'],
+            'prenom' => ['required', 'string', 'max:20'],
+            'wouafname' => ['required', 'string', 'max:20'],
+            'image' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -65,9 +67,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'nom' => $data['nom'],
+            'prenom' => $data['prenom'],
+            'wouafname' => $data['wouafname'],
+            'image' => $data['image'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'remember_token' => $data['_token'],
         ]);
+
+        $this->redirectTo('home');
     }
 }
