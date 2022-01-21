@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,8 +27,14 @@ class HomeController extends Controller
     {
         return view('index');
     }
+
     public function home()
     {
-        return view('home');
+        // recuperer liste message et envoyer a la view
+
+        $messages = Message::all();
+        return view('home', ['messages' => $messages]); // 'message = le nom de la variable quon va utilisé dans la view , $message = ce quon a recuperer dans la db et qu'on a asigner a la variable $message
+        
+        
     }
 }

@@ -27,4 +27,16 @@ Auth::routes();
 
 Route::get('/moncompte', [App\Http\Controllers\UserController::class, 'moncompte'])->name('moncompte');
 
+Route::get('/modifier', [App\Http\Controllers\UserController::class, 'modifier'])->name('modifier');
+
+Route::put('/update', [App\Http\Controllers\UserController::class, 'update'])->name('update');
+
+Route::put('/modifiermotdepasse', [App\Http\Controllers\UserController::class, 'modifiermotdepasse'])->name('modifiermotdepasse');
+
+// La partie message sur la page d'acceuil
+
+Route::resource('/messages', App\Http\Controllers\MessageController::class)->except('index');
+
+
+
 

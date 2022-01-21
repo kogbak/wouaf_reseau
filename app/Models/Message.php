@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
 
+    protected $fillable = [ // comprend pas trop remplissable 
+        'message',
+        'image',
+        'tags'
+    ];
 
     use HasFactory;
 
