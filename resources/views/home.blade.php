@@ -38,17 +38,27 @@
             </div>
         </div>
     </div>
-    <h1>Liste des messages</h1>
+    <h1 class="text-center m-5">Liste des messages</h1>
+
+
     <?php
-//dd($messages)
+    //dd($messages);
     ?>
+
+
     @foreach ($messages as $message)
 
-        <div class="container">
+        <div class="container text-center mt-5 shadow-sm rounded-3" style="background-color: white; padding: 30px">
             <div class="row">
                 <div class="col-4">
-                    <img src="{{ $userId->image }}" alt="photo_de_profil">
-                    <h3>{{ $userId->wouafname }}</h3>
+                    @if ($message->user->image)
+                    <img src="images/{{ $message->user->image }}" class="rounded-circle" alt="logo" style="width: 5em;"
+                            class="">
+                    @else
+                        <img src="{{ asset("images/default_user.jpg") }} " class="rounded-circle" alt="logo" style="width: 5em;"
+                            class="">
+                    @endif
+                    <h3 class="mt-1">{{ $message->user->wouafname }}</h3>
                 </div>
                 <div class="col-4">
                     <p>{{ $message->tags }}</p>
@@ -62,24 +72,29 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <img src="{{ $message->image }}" alt="image_message">
+                    <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 200px;">
                 </div>
             </div>
             <div class="row">
-                <p>{{ $message->message }}</p>
+                <p class="mb-5 mt-3 mx-auto" style="background-color: 
+                #1e1e1e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;">{{ $message->message }}</p>
                 <div class="row">
                     <a href="#">
                         <p>zoom sur ce message</p>
                     </a>
                 </div>
-                <div class="row d-flex flex-row">
-                    <button class="btn btn-primary">Commenter</button>
-                    <button class="btn btn-primary">Modifier</button>
-                    <button class="btn btn-primary">Supprimer</button>
+                <div class="row text-center">
+                    <div class="col-sm-4"><button class="bouton">Commenter</button></div>
+                    <div class="col-sm-4"><button class="btn btn-warning">Modifier</button></div>
+                    <div class="col-sm-4"><button class="btn btn-outline-danger">Supprimer</button></div>
                 </div>
             </div>
         </div>
 
     @endforeach
+    
+<div class="d-flex justify-content-center mt-5">
+{{$messages->links()}}
+</div>
 
 @endsection

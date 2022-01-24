@@ -32,7 +32,7 @@ class MessageController extends Controller
         $message->message = $request['message'];
         $message->image = $request['image'];
         $message->tags = $request['tags'];
-        $message->user_id =$user->id;
+        $message->user_id = $user->id;
         $message->save();
         return redirect()->route('home')->with('message', 'Le message a bien été envoyé');
     }

@@ -15,16 +15,10 @@
                 <!-- si lutilisateur a limage on affiche son image-->
 
                 <img src="{{ asset("images/$user->image") }} " alt="logo" style="width: 23em;" class="mx-auto mb-5 mt-5">
-
-
-
             @else
                 <!-- sinon on affiche image par default-->
-
                 <img src="{{ asset('images/default_user.jpg') }} " alt="logo" style="width: 23em;"
                     class="mx-auto mb-5 mt-5">
-
-
             @endif
 
             <table class="text-center mb-5 mt-5">

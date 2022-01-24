@@ -32,9 +32,7 @@ class HomeController extends Controller
     {
         // recuperer liste message et envoyer a la view
 
-        $messages = Message::all();
+        $messages = Message::with('user')->latest()->paginate(2);
         return view('home', ['messages' => $messages]); // 'message = le nom de la variable quon va utilisé dans la view , $message = ce quon a recuperer dans la db et qu'on a asigner a la variable $message
-        
-        
     }
 }
