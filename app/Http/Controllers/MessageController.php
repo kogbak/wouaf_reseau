@@ -21,13 +21,14 @@ class MessageController extends Controller
         $request->validate([
             'message' => 'required|max:500',
             'image' => 'required|max:100',
-            'tags' => 'required|max:40',   
+            'tags' => 'required|max:40', 
            
         ]);
 
         $user = Auth::user(); // on recupere le user connecté
 
         $message = new Message;
+        $this->authorize('create', $message);
 
         $message->message = $request['message'];
         $message->image = $request['image'];
@@ -55,9 +56,11 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Message $message)
     {
-        //
+        $this->authorize('update', $message);
+        // $this->authorize('update-post', $message); cela vien du gate dans authserviceprovider.php
+        return view('user/modifiermessage', compact('message'));
     }
 
     /**
@@ -67,9 +70,22 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Message $message)
     {
-        //
+
+        $request->validate([
+            'message' => 'required|max:500',
+            'image' => 'max:50',
+            'tags' => 'max:40'
+        ]);
+
+        
+        $message->message = $request['message'];
+        $message->image = $request['image'];
+        $message->tags = $request['tags'];
+        $message->save();
+        return redirect()->route('home')->with('message', 'Le message a bien était modifier');
+        
     }
 
     /**
@@ -78,8 +94,10 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Message $message)
+    { 
+        $this->authorize('delete', $message);
+        $message->delete();     
+        return redirect()->route('home')->with('message', 'Le message a bien était supprimer');
     }
 }

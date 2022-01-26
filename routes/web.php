@@ -36,6 +36,14 @@ Route::put('/modifiermotdepasse', [App\Http\Controllers\UserController::class, '
 // La partie message sur la page d'acceuil
 
 Route::resource('/messages', App\Http\Controllers\MessageController::class)->except('index');
+// commentaires
+
+Route::resource('/commentaire', App\Http\Controllers\CommentController::class)->except('index','create');
+
+Route::get('/commentaire/create/{id}', [App\Http\Controllers\CommentController::class, 'create'])->name('commentaire.create');
+
+
+
 
 
 

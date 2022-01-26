@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
 
@@ -27,7 +28,7 @@ class User extends Authenticatable
 
     public function role(){
         
-        return $this->belongsTo('app\Models\Role'); // peut avoir 1/1 donc user ou admin
+        return $this->belongsTo(Role::class); // peut avoir 1/1 donc user ou admin
     
     }
 
@@ -66,4 +67,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin(){
+
+        return $this->role === 'admin';
+    }
 }
