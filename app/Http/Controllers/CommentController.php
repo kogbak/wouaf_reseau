@@ -41,15 +41,21 @@ class CommentController extends Controller
     {
         $request->validate([
             'content' => 'required|max:500',
-            'image' => 'max:50',
+         
             'tags' => 'max:40'
         ]);
 
         $user = Auth::user();
         $commentaire = new Comment;
+    
+
+        if ($request['image']) {
+            $commentaire->image = uploadImage($request);
+        }
+        
 
         $commentaire->content = $request['content'];
-        $commentaire->image = $request['image'];
+ 
         $commentaire->tags = $request['tags'];
 
         $commentaire->user_id = $user->id;
@@ -78,7 +84,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $commentaire)
     {
-        $this->authorize('edit', $commentaire);
+        $this->authorize('update', $commentaire);
         return view('user/modifiercommentaire', compact('commentaire'));
     }
 
@@ -93,13 +99,15 @@ class CommentController extends Controller
     {
         $request->validate([
             'commentaire' => 'required|max:500',
-            'image' => 'max:50',
+         
             'tags' => 'max:40'
         ]);
-
+        if ($request['image']) {
+            $commentaire->image = uploadImage($request);
+        }
         
         $commentaire->content = $request['commentaire'];
-        $commentaire->image = $request['image'];
+   
         $commentaire->tags = $request['tags'];
         $commentaire->save();
         return redirect()->route('home')->with('message', 'Le commentaire a bien était modifier');
@@ -114,7 +122,7 @@ class CommentController extends Controller
     public function destroy(Comment $commentaire)
 
     {
-        $this->authorize('update', $commentaire);
+        $this->authorize('delete', $commentaire);
         $commentaire->delete();     
         return redirect()->route('home')->with('message', 'Le commentaire a bien était supprimer');
     }

@@ -24,13 +24,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
-    {
-        
+
+    { 
         return view('index');
     }
 
     public function home()
+
     {
         // recuperer liste message et envoyer a la view
 

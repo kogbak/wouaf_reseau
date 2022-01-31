@@ -86,8 +86,15 @@
                                         class="d-none ">
                                         @csrf
                                     </form>
+                                    
                                 </div>
                             </li>
+
+                            <form class="d-flex" method="get" action="{{ route('search') }}">
+                                <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-light" type="submit">Ok</button>
+                              </form>
+
                         @endguest
                     </ul>
                 </div>

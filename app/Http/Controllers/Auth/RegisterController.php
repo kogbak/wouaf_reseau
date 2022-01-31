@@ -53,7 +53,6 @@ use RegistersUsers;
             'nom' => ['required', 'string', 'max:30'],
             'prenom' => ['required', 'string', 'max:20'],
             'wouafname' => ['required', 'string', 'max:20'],
-            'image' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
             'password' => ['required' , 'confirmed', Password::min(8)
             ->letters()
@@ -69,8 +68,13 @@ use RegistersUsers;
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data,)
     {
+
+        if ($data['image']) {
+            $data['image'] = uploadImage($data);
+        }
+
         return User::create([
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],

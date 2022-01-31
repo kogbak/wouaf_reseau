@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,21 @@ Route::resource('/commentaire', App\Http\Controllers\CommentController::class)->
 
 Route::get('/commentaire/create/{id}', [App\Http\Controllers\CommentController::class, 'create'])->name('commentaire.create');
 
+// rechercher 
+
+
+Route::get('/search', [App\Http\Controllers\MessageController::class, 'search'])->name('search');
+
+
+// image
+
+Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])->name('image.upload.post');
+
+
+// image
+
+
+Route::get('/show/{user}', [App\Http\Controllers\UserController::class, 'show' ])->name('show');
 
 
 

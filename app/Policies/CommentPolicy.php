@@ -19,14 +19,11 @@ class CommentPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
 
-    public function before(User $user){
-
-        if($user->isAdmin()) {
-    
+    public function before(User $user)
+    {
+        if ($user->isAdmin()){
             return true;
-    
-        }
-    
+        };
     }
 
 
@@ -79,13 +76,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        return $user->id == $comment->message || $user->id == $comment->user_id; // je n'y arrive pas
-    /*  return $user->id == $comment->message->id
-        return $user->id == $comment->message->user_id
-        return $user->id == $comment->message->message_id
-        return $user->id == $comment->message->user
- 
-*/
+        return $user->id == $comment->message->user_id || $user->id == $comment->user_id;
         
     }
 

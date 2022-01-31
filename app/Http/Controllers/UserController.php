@@ -8,6 +8,8 @@ use Auth;
 use Illuminate\Support\Facades\Hash;
 use Str;
 use Illuminate\Support\Facades\Password;
+use App\Models\Message;
+use App\Models\User;
 
 
 
@@ -51,9 +53,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        
+    $messages = Message::where('user_id', '=', $user->id)->with('comments.user')->latest()->paginate(2);
+
+     return view('user.profil', compact('user', 'messages'));
+
+    
     }
 
     /**
@@ -75,7 +82,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request) // j'ai enlever l'id
+    public function update(Request $request, User $user) // j'ai enlever l'id
     {
 
 
@@ -83,14 +90,19 @@ class UserController extends Controller
             'nom' => 'required|max:30',
             'prenom' => 'required|max:30',
             'email' => 'required|max:40',
-            'image' => 'required|max:40'
+       
         ]);
 
         $user = Auth::user(); // on recupere le user connecté
+
+        if ($request['image']) {
+            $user->image = uploadImage($request);
+        }
+
         $user->nom = $request['nom'];
         $user->prenom = $request['prenom'];
         $user->email = $request['email'];
-        $user->image = $request['image'];
+  
         $user->save();
         return redirect()->route('moncompte')->with('message', 'Le compte a bien été modifié');
     }

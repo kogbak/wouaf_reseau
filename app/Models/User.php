@@ -12,10 +12,12 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
 
+    
+
 
     public function messages(){
 
-        return $this->hasMany('app\Models\Message'); // peut poster 0 a plusieure messages
+        return $this->hasMany(Message::class); // peut poster 0 a plusieure messages
     
     }
 
@@ -68,8 +70,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin(){
-
-        return $this->role === 'admin';
+    public function isAdmin()
+    {
+       return auth()->user()->role_id === 2;
+        
     }
+
+    
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use Auth;
+use App\Models\User;
+
 
 class MessageController extends Controller
 {
@@ -16,22 +18,23 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Message $message)
     {
         $request->validate([
             'message' => 'required|max:500',
-            'image' => 'required|max:100',
-            'tags' => 'required|max:40', 
-           
+            'tags' => 'required|max:40',
+
         ]);
 
         $user = Auth::user(); // on recupere le user connecté
 
         $message = new Message;
-        $this->authorize('create', $message);
+        
+        if ($request['image']) {
+            $message->image = uploadImage($request);
+        }
 
         $message->message = $request['message'];
-        $message->image = $request['image'];
         $message->tags = $request['tags'];
         $message->user_id = $user->id;
         $message->save();
@@ -44,10 +47,16 @@ class MessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function search(Request $request, User $user)
     {
-      
 
+        $request->validate([
+            'search' => 'required|max:30',
+
+        ]);
+        $recherche = $request['search'];
+        $messages =  Message::where('message', 'like', "%$recherche%")->where('tags', 'like', "%$recherche%")->with('user', 'comments.user')->latest()->paginate(2);
+        return view('search', compact('messages'));
     }
 
     /**
@@ -57,6 +66,7 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Message $message)
+
     {
         $this->authorize('update', $message);
         // $this->authorize('update-post', $message); cela vien du gate dans authserviceprovider.php
@@ -75,17 +85,18 @@ class MessageController extends Controller
 
         $request->validate([
             'message' => 'required|max:500',
-            'image' => 'max:50',
+        
             'tags' => 'max:40'
         ]);
+        if ($request['image']) {
+            $message->image = uploadImage($request);
+        }
 
-        
         $message->message = $request['message'];
-        $message->image = $request['image'];
+     
         $message->tags = $request['tags'];
         $message->save();
         return redirect()->route('home')->with('message', 'Le message a bien était modifier');
-        
     }
 
     /**
@@ -95,9 +106,9 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)
-    { 
+    {
         $this->authorize('delete', $message);
-        $message->delete();     
+        $message->delete();
         return redirect()->route('home')->with('message', 'Le message a bien était supprimer');
     }
 }
