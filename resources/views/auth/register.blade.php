@@ -67,7 +67,8 @@
                                 <label for="image" class="col-md-4 col-form-label text-md-end">Image : </label>
 
                                 <div class="col-md-6">
-                                    <input type="file" name="image" class="form-control mx-auto @error('image') is-invalid @enderror" name="image">
+                                    <input type="file" name="image"
+                                        class="form-control mx-auto @error('image') is-invalid @enderror" name="image">
 
                                     @error('image')
                                         <span class="invalid-feedback" role="alert">
@@ -122,7 +123,7 @@
 
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" class="bouton">
                                         {{ __('Inscription') }}
                                     </button>
                                 </div>

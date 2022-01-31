@@ -71,15 +71,13 @@ use RegistersUsers;
     protected function create(array $data,)
     {
 
-        if ($data['image']) {
-            $data['image'] = uploadImage($data);
-        }
+      
 
         return User::create([
             'nom' => $data['nom'],
             'prenom' => $data['prenom'],
             'wouafname' => $data['wouafname'],
-            'image' => $data['image'],
+         
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'remember_token' => $data['_token'],

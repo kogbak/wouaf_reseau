@@ -91,7 +91,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 200px;">
+                    <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 300px;" class="rounded-3">
                 </div>
             </div>
             <div class="row">
@@ -145,8 +145,10 @@
                             <img src="{{ asset('images/default_user.jpg') }} " class="rounded-circle" alt="logo"
                                 style="width: 5em;">
                         @endif
-                        <a href="{{route("show", $message->user)}}">
+                        
+                        <a href="{{route("show", $commentaire->user)}}">
                         <h3 class="d-flex justify-content-start ms-5 mt-2 ">{{ $commentaire->user->wouafname }}</h3></a>
+                        <p class="text-center">{{ $commentaire->tags }}</p>
                     </div>
                     <div class="row">
                         @if ($commentaire->image)
@@ -160,12 +162,12 @@
                                                     #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px; height:50px;"
                                 class="mx-auto mt-5 d-flex align-items-center justify-content-center">{{ $commentaire->content }}</p>
                         </div>
-                        <p>{{ $commentaire->tags }}</p>
+                        
 
                         @can('update', $commentaire)
                             <div class="col-sm-6">
                                 <a href="{{ route('commentaire.edit', $commentaire) }}"><button
-                                        class="btn btn-light m-3">Modifier</button></a>
+                                        class="boutondeux m-3">Modifier</button></a>
                             </div>
                         @endcan
 
@@ -177,7 +179,7 @@
                                 @csrf
                                 <input type="submit"
                                     onclick="return confirm('êtes vous sûres de supprimer le commentaire?')"
-                                    class="boutondeux m-3" value="supprimer">
+                                    class="m-3 boutonsupprimer" value="Supprimer">
                             </form>
                         </div>
 

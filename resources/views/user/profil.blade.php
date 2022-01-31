@@ -70,12 +70,13 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 200px;">
+                    <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 300px;" class="rounded-3">
                 </div>
             </div>
             <div class="row">
-                <p class="mb-5 mt-3 mx-auto d-flex align-items-center justify-content-center" style="background-color: 
-                        #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;height:50px;">
+                <p class="mb-5 mt-3 mx-auto d-flex align-items-center justify-content-center"
+                    style="background-color: 
+                            #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;height:50px;">
                     {{ $message->message }}</p>
                 <div class="row">
                     <a href="#">
@@ -128,26 +129,28 @@
                         <h3 class="mt-2 " style="margin-left: 2.5em">{{ $commentaire->user->wouafname }}</h3>
                     </a>
                 </div>
+                <p class="text-center">{{ $commentaire->tags }}</p>
                 <div class="row">
                     @if ($commentaire->image)
-                        <img src="{{ asset("images/$commentaire->image") }}" class="mx-auto rounded-3"
-                            style=" width: 400px; border-radius: 2%;">
+                        <img src="{{ asset("images/$commentaire->image") }}" class="rounded-3 mx-auto "
+                            style=" width: 400px;">
                     @else
                     @endif
 
                     <div class="row">
+
                         <p style="background-color: 
-                                                                #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;height:50px;"
+                                                                    #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;height:50px;"
                             class="mx-auto mt-5 d-flex align-items-center justify-content-center">
                             {{ $commentaire->content }}</p>
                     </div>
-                    <p>{{ $commentaire->tags }}</p>
+
 
                     @can('update', $commentaire)
                         <div class="row text-center">
                             <div class="col-sm-6">
                                 <a href="{{ route('commentaire.edit', $commentaire) }}"><button
-                                        class="btn btn-light m-3">Modifier</button></a>
+                                        class="boutondeux mt-3">Modifier</button></a>
                             </div>
 
                         @endcan
@@ -160,7 +163,7 @@
                                 @csrf
                                 <input type="submit"
                                     onclick="return confirm('êtes vous sûres de supprimer le commentaire?')"
-                                    class="boutondeux m-3 ms-5" value="supprimer">
+                                    class="boutonsupprimer ms-5 mt-3" value="Supprimer">
                             </form>
                         </div>
                     </div>

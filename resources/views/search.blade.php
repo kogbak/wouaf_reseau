@@ -44,13 +44,13 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 200px;">
+                        <img src="{{ asset("images/$message->image") }}" alt="image_message" style="height: 300px;" class="rounded-3"">
                     </div>
                 </div>
                 <div class="row">
-                    <p class="mb-5 mt-3 mx-auto"
+                    <p class="mb-5 mt-3 mx-auto d-flex align-items-center justify-content-center"
                         style="background-color: 
-                                                            #1e1e1e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;">
+                                                            #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;height:50px;">
                         {{ $message->message }}</p>
                     <div class="row">
                         <a href="#">
@@ -81,7 +81,7 @@
                                 </form>
                             </div>
                         @endcan
-
+</div>
                         @foreach ($message->comments as $commentaire)
 
                             <div class="container p-1 w-75 mt-4 rounded-3" style="background-color:#ff2d20; color:white;">
@@ -108,15 +108,15 @@
 
                                     <div class="row">
                                         <p style="background-color: 
-                                                #1e1e1e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px;"
-                                            class="mx-auto mt-5">{{ $commentaire->content }}</p>
+                                                #2e2e2e; width:20em; color: white; border: 1px solid transparent; border-radius: 7px; height:50px"
+                                            class="mx-auto mt-5 d-flex align-items-center justify-content-center">{{ $commentaire->content }}</p>
                                     </div>
                                     <p>{{ $commentaire->tags }}</p>
 
                                     @can('update', $commentaire)
                                         <div class="col-sm-6">
                                             <a href="{{ route('commentaire.edit', $commentaire) }}"><button
-                                                    class="btn btn-light m-3">Modifier</button></a>
+                                                    class="boutondeux m-3">Modifier</button></a>
                                         </div>
                                     @endcan
 
@@ -128,7 +128,7 @@
                                                 @csrf
                                                 <input type="submit"
                                                     onclick="return confirm('êtes vous sûres de supprimer le commentaire?')"
-                                                    class="boutondeux m-3" value="supprimer">
+                                                    class="boutonsupprimer m-3" value="supprimer">
                                             </form>
                                         </div>
                                     @endcan
@@ -148,5 +148,7 @@
 
     @endif
 
-
+    <div class="d-flex justify-content-center mt-5">
+        {{ $messages->links() }}
+    </div>
 @endsection

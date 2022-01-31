@@ -9,7 +9,7 @@
 @section('content')
 
     <div class="container text-center w-50" style="background-color: white">
-        <div class="row">
+        <div class="row ">
 
             <h3 class="mt-5 mb-5 fw-bold ">Modifier mes informations</h3>
 

@@ -41,7 +41,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    protected $fillable = [ // tous les champs qu'on a définie dans la migration sinon erreur dans une save ou un create
         'nom',
         'prenom',
         'wouafname',

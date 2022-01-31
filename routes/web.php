@@ -51,7 +51,7 @@ Route::get('/search', [App\Http\Controllers\MessageController::class, 'search'])
 
 // image
 
-Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])->name('image.upload.post');
+
 
 
 // image

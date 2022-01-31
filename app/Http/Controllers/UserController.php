@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 use Str;
-use Illuminate\Support\Facades\Password;
+
+use Illuminate\Validation\Rules\Password;
 use App\Models\Message;
 use App\Models\User;
 
@@ -55,12 +56,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        
-    $messages = Message::where('user_id', '=', $user->id)->with('comments.user')->latest()->paginate(2);
 
-     return view('user.profil', compact('user', 'messages'));
+        $messages = Message::where('user_id', '=', $user->id)->with('comments.user')->latest()->paginate(2);
 
-    
+        return view('user.profil', compact('user', 'messages'));
     }
 
     /**
@@ -90,7 +89,7 @@ class UserController extends Controller
             'nom' => 'required|max:30',
             'prenom' => 'required|max:30',
             'email' => 'required|max:40',
-       
+
         ]);
 
         $user = Auth::user(); // on recupere le user connecté
@@ -102,7 +101,7 @@ class UserController extends Controller
         $user->nom = $request['nom'];
         $user->prenom = $request['prenom'];
         $user->email = $request['email'];
-  
+
         $user->save();
         return redirect()->route('moncompte')->with('message', 'Le compte a bien été modifié');
     }
@@ -112,31 +111,30 @@ class UserController extends Controller
         $request->validate([
             // 'token' => 'required',
             'password' => 'required',    //mot de passe actuel
-            'new_password' => ['required' , 'confirmed', Password::min(8)
-            ->letters()
-            ->mixedCase()
-            ->numbers()
-            ->symbols()]
+            'new_password' => ['required', 'confirmed', Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()]
         ]);
 
         $user = Auth::user();
         //  $user->password = $request['token'];
-        if(!Hash::check($request['password'], $user->password)){ // si mdp et different du mdp acuel alors erreur sinon on continue dans le else
-        
-            return redirect()->back()->withErrors(['erreur' => 'erreur mot de passe actuel']); 
+        if (!Hash::check($request['password'], $user->password)) { // si mdp et different du mdp acuel alors erreur sinon on continue dans le else
 
-    }else{
+            return redirect()->back()->withErrors(['erreur' => 'erreur mot de passe actuel']);
+        } else {
 
-        if($request['password'] == $request['new_password'] ){ // si mdp et pareille que le nouveau mdp  alors erreur sinon on continue dans le else
+            if ($request['password'] == $request['new_password']) { // si mdp et pareille que le nouveau mdp  alors erreur sinon on continue dans le else
 
-            return redirect()->back()->withErrors(['erreur' => 'le mot de passe actuel et identique au nouveau mot de passe']); 
-        }else
+                return redirect()->back()->withErrors(['erreur' => 'le mot de passe actuel et identique au nouveau mot de passe']);
+            } else
 
-        $user->password = Hash::make($request['new_password']);
-        $user->save();
-        // ->setRememberToken(Str::random(60));
-        return redirect()->route('moncompte')->with('message', 'Le mot de passe a bien été modifié');
-    }
+                $user->password = Hash::make($request['new_password']);
+            $user->save();
+            // ->setRememberToken(Str::random(60));
+            return redirect()->route('moncompte')->with('message', 'Le mot de passe a bien été modifié');
+        }
     }
 
 
