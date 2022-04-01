@@ -40,8 +40,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'content' => 'required|max:500',
-         
+            'content' => 'required|max:500',        
             'tags' => 'max:40'
         ]);
 
